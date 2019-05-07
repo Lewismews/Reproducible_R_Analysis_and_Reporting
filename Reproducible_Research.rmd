@@ -1,0 +1,117 @@
+---
+title: "Reproducible R analysis and Reporting"
+author: "Lewis Mews"
+date: "May 2019"
+output:
+  html_document: default
+word_document: default
+pdf_document: default
+---
+  
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(include = FALSE)
+library(ggplot2)
+library(knitr)
+library(gridExtra)
+
+```
+
+```{r load_data, include=FALSE}
+
+data <- iris
+
+```
+
+-----
+
+# Introduction
+
+This is a demo markdown created for the __Colchester R Users Group__ meetup. This Demo can be downloaded from `Github` using this link <https://github.com/Lewismews/Reproducible_R_Analysis_and_Reporting>. 
+
+
+In this R Markdown file I will
+
+1) Run some basic moddeling code
+2) Explain some tests??!?!? 
+
+
+I will use the Iris dataset for this example, but feel free to try the file on your own datasets. just make sure:
+
+* blablabla what to make sure of
+* blablabla what to make sure of
+
+-----
+
+# Methods
+
+<br>
+  
+#### Step 1)     
+Firstly I looked at what data we have
+
+``` {r head_data, fig.align='center', fig.height=9, include = TRUE, echo = FALSE, results = 'asis'}
+
+kable(head(data))
+
+```
+
+<br>
+  
+#### Step 2)      
+Next I plotted the data to get see if there was any interesting relationships
+
+``` {r initial_plot, fig.align='center', fig.height=7, include = TRUE, echo = FALSE, fig.width = 9}
+
+p1 <- ggplot(data) + aes(x = data[, 1], y = data[,5]) + geom_point() + ggtitle("") + theme(plot.title = element_text(hjust = 0.5)) + xlab(gsub(".", " ", colnames(data[1]), fixed = TRUE)) + ylab(gsub(".", " ", colnames(data[5]), fixed = TRUE))
+
+p2 <- ggplot(data) + aes(x = data[, 3], y = data[,5]) + geom_point() + ggtitle("") + theme(plot.title = element_text(hjust = 0.5)) + xlab(gsub(".", " ", colnames(data[2]), fixed = TRUE)) + ylab(gsub(".", " ", colnames(data[5]), fixed = TRUE))
+
+p3 <- ggplot(data) + aes(x = data[, 1], y = data[,2], col = data[,5]) + geom_point() + ggtitle("") + theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + xlab(gsub(".", " ", colnames(data[1]), fixed = TRUE)) + ylab(gsub(".", " ", colnames(data[2]), fixed = TRUE)) + labs(color=colnames(data)[5]) 
+
+p4 <- ggplot(data) + aes(x = data[, 3], y = data[,4], col = data[,5]) + geom_point() + ggtitle("") + theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + xlab(gsub(".", " ", colnames(data[3]), fixed = TRUE)) + labs(color=colnames(data)[5]) + ylab(gsub(".", " ", colnames(data[4]), fixed = TRUE))
+ 
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+
+
+
+```
+
+<br>
+  
+#### Step 3) 
+I then created a simple linear model of wins against total defensive points and total offensive points 
+
+``` {r model, fig.align='center', fig.height=9}
+
+#(model <- lm(Wins ~ Total.Points.offense + Total.Points.Defense, data=data))
+
+```
+
+-----
+
+# Results
+
+Here is a summary of the regression model:
+  
+``` {r summarise_model}
+
+#summary(model)
+
+```
+<br>
+  Below shows a plot of fitted values vs actual values
+
+``` {r plot_model}
+
+#plot(round(model$fitted.values), data$Wins)
+#  $$E(Wins) = `r model$coefficients[1]` + `r model$coefficients[2]`*Total.Points.offense + #`r model$coefficients[3]`*Total.Points.Defense$$
+```
+
+-----
+
+# Conclusion
+
+so the final model is:
+     
+As can be seen, the model performs terribly. 
